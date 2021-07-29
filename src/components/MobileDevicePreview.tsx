@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { MobileDevice, MobileDeviceColors, MobileDevices } from '../types'
 import { BuildDevice } from './BuildDevice'
 import { Menu } from './Menu'
@@ -11,9 +11,11 @@ export interface IMobileDeviceProps {
   preSelectedLandscape?: boolean
   showMenu?: boolean
   children?: any
+  zoomToFit?: boolean
 }
 
 export const MobileDevicePreview: React.FC<IMobileDeviceProps> = ({
+  zoomToFit = true,
   allowedDevices,
   preSelectedDevice,
   preSelectedColor = 'black',
@@ -26,10 +28,15 @@ export const MobileDevicePreview: React.FC<IMobileDeviceProps> = ({
     'black'
   )
   const [landscape, setLandscape] = useState(preSelectedLandscape)
+  const deviceRef = useRef(null)
+  const menuRef = useRef(null)
+  const containerRef = useRef(null)
 
   useEffect(() => {
     setPreselectedDevice()
   }, [])
+
+  console.log({ deviceRef, menuRef, containerRef, zoomToFit })
 
   const setPreselectedDevice = () => {
     let device: MobileDevice
@@ -86,6 +93,7 @@ export const MobileDevicePreview: React.FC<IMobileDeviceProps> = ({
 
   return selectedDevice ? (
     <div
+      ref={containerRef}
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -96,6 +104,7 @@ export const MobileDevicePreview: React.FC<IMobileDeviceProps> = ({
     >
       {showMenu && (
         <Menu
+          ref={menuRef}
           selectedDevice={selectedDevice}
           selectedColor={selectedColor}
           allowedDevices={allowedDevices}
@@ -105,6 +114,7 @@ export const MobileDevicePreview: React.FC<IMobileDeviceProps> = ({
         />
       )}
       <BuildDevice
+        ref={deviceRef}
         selectedDevice={selectedDevice}
         selectedColor={selectedColor}
         landscape={landscape}

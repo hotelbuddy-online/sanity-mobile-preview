@@ -17,6 +17,7 @@ interface IProps {
   selectedColor: MobileDeviceColors
   landscape: boolean
   children: any
+  ref: any
 }
 
 export const BuildDevice: React.FC<IProps> = ({
@@ -32,9 +33,10 @@ export const BuildDevice: React.FC<IProps> = ({
     const hasColor = colors.includes(selectedColor)
     const color = hasColor ? selectedColor : 'black'
 
-    let tempRootDeviceClass = `${mobileStyle['marvel-device']}  ${
-      mobileStyle[selectedDevice.type]
-    } ${mobileStyle[color]}`
+    // eslint-disable-next-line prettier/prettier
+    let tempRootDeviceClass = `${mobileStyle['marvel-device']}  ${mobileStyle[selectedDevice.type]
+      // eslint-disable-next-line prettier/prettier
+      } ${mobileStyle[color]}`
 
     if (landscape) tempRootDeviceClass += ' ' + mobileStyle.landscape
     setRootDeviceClass(tempRootDeviceClass)
